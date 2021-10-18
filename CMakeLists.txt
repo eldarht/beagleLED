@@ -2,12 +2,33 @@ cmake_minimum_required(VERSION 3.10)
 
 project(beagleLED)
 
-add_executable(beagleLED "${PROJECT_SOURCE_DIR}/src/main.cpp")
+add_subdirectory("${PROJECT_SOURCE_DIR}/beagleboneLib")
+add_executable(beagleLED
+  "${PROJECT_SOURCE_DIR}/src/main.cpp"
+  "${PROJECT_SOURCE_DIR}/src/log_formatter.cpp"
+  )
+target_link_libraries(beagleLED PUBLIC beagleboneLib)
+target_include_directories(beagleLED PUBLIC
+  "${PROJECT_SOURCE_DIR}/inc"
+  )
 
 find_package(Catch2)
 
-if(Catch2::Catch2)
+if(Catch2_FOUND)
   message("Testing: ENABLED")
+  add_executable(unittesting
+    "${PROJECT_SOURCE_DIR}/test/main.cpp"
+    "${PROJECT_SOURCE_DIR}/src/log_formatter.cpp"
+    )
+  target_link_libraries(unittesting Catch2::Catch2)
+  target_include_directories(unittesting PUBLIC
+    "${CMAKE_SOURCE_DIR}/inc"
+    )
+  
+  include(CTest)
+  include(Catch)
+
+  catch_discover_tests(unittesting OUT_DIR {CMAKE_BINARY_DIR}/test)
 else()
   message("Testing: DISABLED")
 endif()
