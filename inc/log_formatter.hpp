@@ -1,5 +1,7 @@
 #include <cstdio>
 
+#define DEFAULT_LOG_SIZE 50
+
 enum Log_level{
   DEBUG = 0,
   INFO,

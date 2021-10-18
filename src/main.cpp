@@ -1,12 +1,18 @@
 #include <iostream>
-#include "Beaglebone.hpp"
+#include <thread>
+#include "heartbeat.hpp"
 #include "log_formatter.hpp"
-
-#define LOG_SIZE 50
+#include "Beaglebone.hpp"
 
 int main(int argc, char* argv[]){
-  char log_buffer[LOG_SIZE];
-  log_formatter(DEBUG, log_buffer, LOG_SIZE -1, "Application started");
+  char log_buffer[DEFAULT_LOG_SIZE];
+  log_formatter(DEBUG, log_buffer, DEFAULT_LOG_SIZE -1, "Application started");
   printf(log_buffer);
+
+  std::thread thread_heartbeat(heartbeat);
+
+  thread_heartbeat.join();
+
+  return 0;
 }
 

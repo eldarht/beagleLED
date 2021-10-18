@@ -11,7 +11,7 @@ private:
       Led(std::pair<int,int>(2,24))
       };
   
-  
 public:
-  Beaglebone();
+  Led getLed(int led_nr);
+  int convertGpioPositionToAbsolute(std::pair<int, int> gpioPosition);
 };

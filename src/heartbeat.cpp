@@ -1,37 +1,58 @@
 #include <iostream>
 #include <fstream>
+#include <cstdio>
 #include <string>
 #include <chrono>
 #include <thread>
-
-using namespace std;
+#include "heartbeat.hpp"
+#include "Beaglebone.hpp"
+#include "log_formatter.hpp"
 
 #define GPIO_PATH "/sys/class/gpio/"
 
+Beaglebone beaglebone;
+
 void heartbeat()
 {
-	using namespace std::this_thread;     // sleep_for, sleep_until
-	using namespace std::chrono_literals; // ns, us, ms, s, h, etc.
+  using namespace std::this_thread;     // sleep_for, sleep_until
+  using namespace std::chrono_literals; // ns, us, ms, s, h, etc.
 
-	std::fstream fs;
-	cout << "Starting LED flash" << endl;
+  std::fstream fs;
+  char log_buffer[DEFAULT_LOG_SIZE];
+  log_formatter(INFO, log_buffer, DEFAULT_LOG_SIZE -1, "Starting LED flash\n");
+  printf(log_buffer);
 
-	fs.open(GPIO_PATH "export", std::fstream::out);
-	fs << "53";
-	fs.close();
-	fs.open(GPIO_PATH "gpio53/direction", std::fstream::out);
-	fs << "out";
-	fs.close();
+  fs.open(GPIO_PATH "export", std::fstream::out);
+  if(!fs.is_open()){
+    log_formatter(ERROR, log_buffer, DEFAULT_LOG_SIZE -1, "Could not write to GPIO \"export\"\n");
+    printf(log_buffer);
+    return;
+  }
 
-	while (1)
-	{
-		fs.open(GPIO_PATH "/gpio53/value", std::fstream::out);
-		fs << "1";
-		fs.close();
-		sleep_for(100ms);
-		fs.open(GPIO_PATH "/gpio53/value", std::fstream::out);
-		fs << "0";
-		fs.close();
-		sleep_for(100ms);
-	}
+  std::string gpioNr = std::to_string(beaglebone.convertGpioPositionToAbsolute(beaglebone.getLed(1).getGpioPosition()));
+  fs << gpioNr;
+  fs.close();
+  
+  fs.open(GPIO_PATH "gpio"+gpioNr+"/direction", std::fstream::out);
+  if(!fs.is_open()){
+    log_formatter(ERROR, log_buffer, DEFAULT_LOG_SIZE -1, "Could not write to GPIO LED direction\n");
+    printf(log_buffer);
+    return;
+  }
+  fs << "out";
+  fs.close();
+
+  while(fs.is_open()){
+      fs.open(GPIO_PATH "/gpio53/value", std::fstream::out);
+      fs << "1";
+      fs.close();
+      sleep_for(100ms);
+      fs.open(GPIO_PATH "/gpio53/value", std::fstream::out);
+      fs << "0";
+      fs.close();
+      sleep_for(100ms);
+  }
+
+  log_formatter(ERROR, log_buffer, DEFAULT_LOG_SIZE -1, "Could not write to GPIO LED value\n");
+  printf(log_buffer);
 }

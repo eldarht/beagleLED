@@ -25,4 +25,5 @@ public:
   Led(std::pair<int,int> gpioPosition, LedState state = Led_off);
   LedState toggle(); // Toggle LED on/off returning the new state
   LedState getState();
+  std::pair<int,int> getGpioPosition();
 };

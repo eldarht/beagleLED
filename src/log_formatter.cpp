@@ -36,7 +36,7 @@ int log_formatter(Log_level level, char* buffer, std::size_t buf_size, const cha
   char time_buf[100];
   std::strftime(time_buf, sizeof time_buf, "%D %T", std::gmtime(&t));
 
-  // Create argument list and compy
+  // Create argument list and copy
   va_list args1;
   va_start(args1, fmt);
   va_list args2;
@@ -51,6 +51,6 @@ int log_formatter(Log_level level, char* buffer, std::size_t buf_size, const cha
   va_end(args2);
   
   // Combine text segments in result buffer and return length 
-  int written_length = std::sprintf(buffer, "[%s] %s:\t%s\n", log_level_buf.c_str(), time_buf, buf.data());
+  int written_length = std::sprintf(buffer, "[%-7s] %s:\t%s\n", log_level_buf.c_str(), time_buf, buf.data());
   return written_length;
 }

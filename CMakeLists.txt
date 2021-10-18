@@ -1,15 +1,22 @@
-
 cmake_minimum_required(VERSION 3.10)
 
 project(beagleLED)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
 
+include(FindThreads)
 add_subdirectory("${PROJECT_SOURCE_DIR}/beagleboneLib")
 add_executable(beagleLED
   "${PROJECT_SOURCE_DIR}/src/main.cpp"
   "${PROJECT_SOURCE_DIR}/src/log_formatter.cpp"
   "${PROJECT_SOURCE_DIR}/src/heartbeat.cpp"
   )
-target_link_libraries(beagleLED PUBLIC beagleboneLib)
+
+target_link_libraries(beagleLED PUBLIC
+  beagleboneLib
+  Threads::Threads
+  )
+
 target_include_directories(beagleLED PUBLIC
   "${PROJECT_SOURCE_DIR}/inc"
   )

@@ -17,3 +17,7 @@ LedState Led::getState(){
   return this->state;
 }
 
+std::pair<int, int> Led::getGpioPosition(){
+  return this->gpioPosition;
+}
+
