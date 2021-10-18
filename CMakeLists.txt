@@ -4,6 +4,10 @@ project(beagleLED)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+  add_compile_options(-Wall -Werror)
+endif()
+
 include(FindThreads)
 add_subdirectory("${PROJECT_SOURCE_DIR}/beagleboneLib")
 add_executable(beagleLED

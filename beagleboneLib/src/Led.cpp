@@ -10,7 +10,8 @@ LedState Led::toggle(){
   //  TODO: update to use Linux sysfs to set board LED
   std::cout << "NOT Implemented\n";
 
-  (this->state == Led_on) ? this->state = Led_off : this->state = Led_on; 
+  (this->state == Led_on) ? this->state = Led_off : this->state = Led_on;
+  return this->state;
 }
 
 LedState Led::getState(){
