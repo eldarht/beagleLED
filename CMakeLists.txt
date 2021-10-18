@@ -1,3 +1,4 @@
+
 cmake_minimum_required(VERSION 3.10)
 
 project(beagleLED)
@@ -6,6 +7,7 @@ add_subdirectory("${PROJECT_SOURCE_DIR}/beagleboneLib")
 add_executable(beagleLED
   "${PROJECT_SOURCE_DIR}/src/main.cpp"
   "${PROJECT_SOURCE_DIR}/src/log_formatter.cpp"
+  "${PROJECT_SOURCE_DIR}/src/heartbeat.cpp"
   )
 target_link_libraries(beagleLED PUBLIC beagleboneLib)
 target_include_directories(beagleLED PUBLIC

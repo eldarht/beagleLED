@@ -9,3 +9,4 @@ int main(int argc, char* argv[]){
   log_formatter(DEBUG, log_buffer, LOG_SIZE -1, "Application started");
   printf(log_buffer);
 }
+
