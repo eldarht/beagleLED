@@ -34,7 +34,7 @@ void heartbeat()
   fs.close();
 
   fs.open(GPIO_PATH "gpio"+gpioNr+"/direction", std::fstream::out);
-  log_formatter(DEBUG, log_buffer, DEFAULT_LOG_SIZE -1, "Direction path was %sgpio%d/direction\n", GPIO_PATH, gpioNr);
+  log_formatter(DEBUG, log_buffer, DEFAULT_LOG_SIZE -1, "Direction path was %sgpio%s/direction\n", GPIO_PATH, gpioNr);
   printf("%s\n", log_buffer);
     
   if(!fs.is_open()){
