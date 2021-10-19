@@ -28,6 +28,10 @@ std::string log_level_to_string(Log_level level){
   
 int log_formatter(Log_level level, char* buffer, std::size_t buf_size, const char* fmt, ...)
 {
+  if(LOG_LEVEL > level){
+    return 0;
+  }
+  
   // Get log level text
   std::string log_level_buf = log_level_to_string(level);
 

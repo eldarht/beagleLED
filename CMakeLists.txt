@@ -16,6 +16,14 @@ add_executable(beagleLED
   "${PROJECT_SOURCE_DIR}/src/heartbeat.cpp"
   )
 
+set(LOG_LEVEL_OPTIONS DEBUG INFO WARNING ERROR)
+set(LOG_LEVEL INFO CACHE STRING "Application's level of logging")
+set_property(CACHE LOG_LEVEL PROPERTY STRINGS ${LOG_LEVEL_OPTIONS})
+configure_file(
+  "${PROJECT_SOURCE_DIR}/cmake_configuration.h.in"
+  "${PROJECT_SOURCE_DIR}/inc/cmake_configuration.h"
+  )
+
 target_link_libraries(beagleLED PUBLIC
   beagleboneLib
   Threads::Threads

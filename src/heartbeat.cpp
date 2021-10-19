@@ -32,18 +32,25 @@ void heartbeat()
   std::string gpioNr = std::to_string(beaglebone.convertGpioPositionToAbsolute(beaglebone.getLed(1).getGpioPosition()));
   fs << gpioNr;
   fs.close();
-  
+
   fs.open(GPIO_PATH "gpio"+gpioNr+"/direction", std::fstream::out);
+  log_formatter(DEBUG, log_buffer, DEFAULT_LOG_SIZE -1, "Direction path was %sgpio%d/direction\n", GPIO_PATH, gpioNr);
+  printf("%s\n", log_buffer);
+    
   if(!fs.is_open()){
     log_formatter(ERROR, log_buffer, DEFAULT_LOG_SIZE -1, "Could not write to GPIO LED direction\n");
     printf("%s\n", log_buffer);
+
     return;
   }
   fs << "out";
   fs.close();
 
+  fs.open(GPIO_PATH "/gpio53/value", std::fstream::out);
+  log_formatter(DEBUG, log_buffer, DEFAULT_LOG_SIZE -1, "Value path was %sgpio53/value\n", GPIO_PATH);
+  printf("%s\n", log_buffer);
+  
   while(fs.is_open()){
-      fs.open(GPIO_PATH "/gpio53/value", std::fstream::out);
       fs << "1";
       fs.close();
       sleep_for(100ms);
