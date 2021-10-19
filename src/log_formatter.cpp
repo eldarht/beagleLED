@@ -49,8 +49,11 @@ int log_formatter(Log_level level, char* buffer, std::size_t buf_size, const cha
   // Use buffer to create log text
   std::vsnprintf(buf.data(), buf.size(), fmt, args2);
   va_end(args2);
-  
-  // Combine text segments in result buffer and return length 
-  int written_length = std::sprintf(buffer, "[%-7s] %s:\t%s\n", log_level_buf.c_str(), time_buf, buf.data());
-  return written_length;
+
+  int written_length;
+  // Combine text segments in result buffer and return length
+  if(log_level_buf.c_str() != nullptr && time_buf != nullptr && buf.data() != nullptr){ 
+    written_length = std::snprintf(buffer, buf_size, "[%-7s] %s:\t%s", log_level_buf.c_str(), time_buf, buf.data());
+  }
+  return written_length;//written_length;
 }

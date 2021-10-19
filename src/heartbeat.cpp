@@ -20,12 +20,12 @@ void heartbeat()
   std::fstream fs;
   char log_buffer[DEFAULT_LOG_SIZE];
   log_formatter(INFO, log_buffer, DEFAULT_LOG_SIZE -1, "Starting LED flash\n");
-  printf(log_buffer);
+  printf("%s\n", log_buffer);
 
   fs.open(GPIO_PATH "export", std::fstream::out);
   if(!fs.is_open()){
     log_formatter(ERROR, log_buffer, DEFAULT_LOG_SIZE -1, "Could not write to GPIO \"export\"\n");
-    printf(log_buffer);
+    printf("%s\n", log_buffer);
     return;
   }
 
@@ -36,7 +36,7 @@ void heartbeat()
   fs.open(GPIO_PATH "gpio"+gpioNr+"/direction", std::fstream::out);
   if(!fs.is_open()){
     log_formatter(ERROR, log_buffer, DEFAULT_LOG_SIZE -1, "Could not write to GPIO LED direction\n");
-    printf(log_buffer);
+    printf("%s\n", log_buffer);
     return;
   }
   fs << "out";
@@ -54,5 +54,5 @@ void heartbeat()
   }
 
   log_formatter(ERROR, log_buffer, DEFAULT_LOG_SIZE -1, "Could not write to GPIO LED value\n");
-  printf(log_buffer);
+  printf("%s\n", log_buffer);
 }
