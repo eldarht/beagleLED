@@ -25,7 +25,28 @@ std::string log_level_to_string(Log_level level){
     break;
   }
 }
-  
+
+std::string log_level_to_color(Log_level level){
+
+  switch(level){
+  case DEBUG:
+    return COLOR_DEBUG;
+    break;
+  case INFO:
+    return COLOR_INFO;
+    break;
+  case WARNING:
+    return COLOR_WARNING;
+    break;
+  case ERROR:
+    return COLOR_ERROR;
+    break;
+  default:
+    return "?";
+    break;
+  }
+}
+
 int log_formatter(Log_level level, char* buffer, std::size_t buf_size, const char* fmt, ...)
 {
   if(LOG_LEVEL > level){
@@ -57,7 +78,8 @@ int log_formatter(Log_level level, char* buffer, std::size_t buf_size, const cha
   int written_length = -1;
   // Combine text segments in result buffer and return length
   if(log_level_buf.c_str() != nullptr && time_buf != nullptr && buf.data() != nullptr){ 
-    written_length = std::snprintf(buffer, buf_size, "[%-7s] %s:\t%s", log_level_buf.c_str(), time_buf, buf.data());
+    written_length = std::snprintf(buffer, buf_size, "%s[%-7s]%s %s:\t%s",log_level_to_color(level).c_str(),
+				   log_level_buf.c_str(), COLOR_CLEAR, time_buf, buf.data());
   }
-  return written_length;//written_length;
+  return written_length;
 }

@@ -1,0 +1,8 @@
+#cmakedefine USING_COLOR
+#ifdef USING_COLOR
+# cmakedefine COLOR_DEBUG "${COLOR_DEBUG}"
+# cmakedefine COLOR_INFO "${COLOR_INFO}"
+# cmakedefine COLOR_WARNING "${COLOR_WARNING}"
+# cmakedefine COLOR_ERROR "${COLOR_ERROR}"
+# cmakedefine COLOR_CLEAR "${COLOR_CLEAR}"
+#endif

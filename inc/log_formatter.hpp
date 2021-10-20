@@ -5,8 +5,11 @@
 #define DEFAULT_LOG_SIZE 100
 
 #ifdef __has_include
-# if __has_include("cmake_configuration.h")
-#  include "cmake_configuration.h"
+# if __has_include("cmake_configuration.hpp")
+#  include "cmake_configuration.hpp"
+# endif
+# if __has_include("cmake_print_colors.hpp")
+#  include "cmake_print_colors.hpp"
 # endif
 #else
 # pragma message("Your compiler does not support __has_include, source shuld be manually updated to support cmake_configuration.h when relevant")
@@ -15,6 +18,14 @@
 #ifndef LOG_LEVEL
 /// Default Minimum required significanse for a message to be printed. might be overwritten in cmake_configuration.h
 #define LOG_LEVEL WARNING
+#endif
+
+#ifndef USING_COLOR
+# define COLOR_DEBUG ""
+# define COLOR_INFO ""
+# define COLOR_WARNING ""
+# define COLOR_ERROR ""
+# define COLOR_CLEAR ""
 #endif
 
 /**

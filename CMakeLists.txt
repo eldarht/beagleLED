@@ -21,7 +21,7 @@ set(LOG_LEVEL INFO CACHE STRING "Application's level of logging")
 set_property(CACHE LOG_LEVEL PROPERTY STRINGS ${LOG_LEVEL_OPTIONS})
 configure_file(
   "${PROJECT_SOURCE_DIR}/cmake_configuration.hpp.in"
-  "${PROJECT_SOURCE_DIR}/inc/cmake_configuration.hpp"
+  "${PROJECT_BINARY_DIR}/inc/cmake_configuration.hpp"
   )
 
 target_link_libraries(beagleLED PUBLIC
@@ -31,6 +31,7 @@ target_link_libraries(beagleLED PUBLIC
 
 target_include_directories(beagleLED PUBLIC
   "${PROJECT_SOURCE_DIR}/inc"
+  "${PROJECT_BINARY_DIR}/inc"
   )
 
 find_package(Catch2)
@@ -74,3 +75,6 @@ endif()
 
 #Install rules
 install(TARGETS beagleLED DESTINATION bin)
+
+#Adding colors to printout
+include(color.cmake)
