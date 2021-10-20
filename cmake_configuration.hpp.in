@@ -1,5 +1,5 @@
 /**
- * @file cmake_configuration.h contains definitions configured by cmake
+ * @file cmake_configuration.hpp contains definitions configured by cmake
  */ 
 /// Minimum required sigificanse of log message for it to be printed
 #cmakedefine LOG_LEVEL @LOG_LEVEL@

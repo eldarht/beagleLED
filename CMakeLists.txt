@@ -67,6 +67,7 @@ if(DOXYGEN_FOUND)
   
   doxygen_add_docs(docs
     "${CMAKE_SOURCE_DIR}/inc/"
+    "${CMAKE_BINARY_DIR}/inc/"
     COMMENT "Adding documentation with Doxygen"
     )
 else()
