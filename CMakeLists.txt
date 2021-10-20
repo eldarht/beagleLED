@@ -20,8 +20,8 @@ set(LOG_LEVEL_OPTIONS DEBUG INFO WARNING ERROR)
 set(LOG_LEVEL INFO CACHE STRING "Application's level of logging")
 set_property(CACHE LOG_LEVEL PROPERTY STRINGS ${LOG_LEVEL_OPTIONS})
 configure_file(
-  "${PROJECT_SOURCE_DIR}/cmake_configuration.h.in"
-  "${PROJECT_SOURCE_DIR}/inc/cmake_configuration.h"
+  "${PROJECT_SOURCE_DIR}/cmake_configuration.hpp.in"
+  "${PROJECT_SOURCE_DIR}/inc/cmake_configuration.hpp"
   )
 
 target_link_libraries(beagleLED PUBLIC
@@ -52,6 +52,24 @@ if(Catch2_FOUND)
   catch_discover_tests(unittesting OUT_DIR {CMAKE_BINARY_DIR}/test)
 else()
   message("Testing: DISABLED")
+endif()
+
+find_package(Doxygen  
+  OPTIONAL_COMPONENTS dot mscgen dia
+  )
+
+if(DOXYGEN_FOUND)
+  message("Documentation: ENABLED")
+
+  set(DOXYGEN_OUTPUT_DIRECTORY docs)
+  set(DOXYGEN_GENERATE_LATEX YES)
+  
+  doxygen_add_docs(docs
+    "${CMAKE_SOURCE_DIR}/inc/"
+    COMMENT "Adding documentation with Doxygen"
+    )
+else()
+  message("Documentation: DISABLED")
 endif()
 
 #Install rules

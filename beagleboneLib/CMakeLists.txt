@@ -9,3 +9,14 @@ target_include_directories(beagleboneLib
   $<INSTALL_INTERFACE:include>
   )
 
+find_package(Doxygen
+  OPTIONAL_COMPONENTS dot mscgen dia
+  )
+if(DOXYGEN_FOUND)
+  set(DOXYGEN_OUTPUT_DIRECTORY docs)
+
+  doxygen_add_docs(beagleboneLib-docs
+    "${CMAKE_CURRENT_SOURCE_DIR}/inc/"
+    COMMENT "Adding documentation for beagleboneLib"
+    )
+endif()
