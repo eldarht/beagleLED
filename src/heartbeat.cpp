@@ -46,19 +46,19 @@ void heartbeat()
   fs << "out";
   fs.close();
 
-  fs.open(GPIO_PATH "/gpio53/value", std::fstream::out);
-  log_formatter(DEBUG, log_buffer, DEFAULT_LOG_SIZE -1, "Value path was %sgpio53/value\n", GPIO_PATH);
+  fs.open(GPIO_PATH "/gpio"+gpioNr+"/value", std::fstream::out);
+  log_formatter(DEBUG, log_buffer, DEFAULT_LOG_SIZE -1, "Value path was %sgpio%s/value\n", GPIO_PATH, gpioNr);
   printf("%s\n", log_buffer);
   
   do{
       fs << "1";
       fs.close();
       sleep_for(100ms);
-      fs.open(GPIO_PATH "/gpio53/value", std::fstream::out);
+      fs.open(GPIO_PATH "/gpio"+gpioNr+"/value", std::fstream::out);
       fs << "0";
       fs.close();
       sleep_for(100ms);
-      fs.open(GPIO_PATH "/gpio53/value", std::fstream::out);
+      fs.open(GPIO_PATH "/gpio"+gpioNr+"/value", std::fstream::out);
   }while(fs.is_open());
 
   log_formatter(ERROR, log_buffer, DEFAULT_LOG_SIZE -1, "Could not write to GPIO LED value\n");
