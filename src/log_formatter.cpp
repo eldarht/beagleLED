@@ -50,7 +50,7 @@ std::string log_level_to_color(Log_level level){
 int log_formatter(Log_level level, char* buffer, std::size_t buf_size, const char* fmt, ...)
 {
   if(LOG_LEVEL > level){
-      std::snprintf(buffer, 1, "");
+      std::snprintf(buffer, 2, " ");
       return 0;
   }
   
@@ -83,7 +83,7 @@ int log_formatter(Log_level level, char* buffer, std::size_t buf_size, const cha
 				   log_level_buf.c_str(), COLOR_CLEAR, time_buf, buf.data());
   }
   else {
-      std::snprintf(buffer, 1, "");
+      std::snprintf(buffer, 2, " ");
   }
   return written_length;
 }
