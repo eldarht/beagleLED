@@ -2,7 +2,6 @@
 #include <thread>
 #include "heartbeat.hpp"
 #include "log_formatter.hpp"
-#include "Beaglebone.hpp"
 
 int main(int argc, char* argv[]){
   char log_buffer[DEFAULT_LOG_SIZE];

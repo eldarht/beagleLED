@@ -5,12 +5,22 @@
 #include <chrono>
 #include <thread>
 #include "heartbeat.hpp"
-#include "Beaglebone.hpp"
+
+#ifdef __has_include
+# if __has_include("Beaglebone.hpp")
+#  include "Beaglebone.hpp"
+#  define USING_BEAGLEBONE_LIB
+# endif
+#else
+# pragma message("Your compiler does not support__has_include, source should be manually updated to support Beaglebone.hpp when relevant")
+#endif
 #include "log_formatter.hpp"
 
 #define GPIO_PATH "/sys/class/gpio/"
 
+#ifdef USING_BEAGLEBONE_LIB
 Beaglebone beaglebone;
+#endif
 
 void heartbeat()
 {
@@ -22,6 +32,17 @@ void heartbeat()
   log_formatter(INFO, log_buffer, DEFAULT_LOG_SIZE -1, "Starting LED flash\n");
   printf("%s\n", log_buffer);
 
+
+
+#ifdef USING_BEAGLEBONE_LIB
+  std::string gpioNr = std::to_string(beaglebone.convertGpioPositionToAbsolute(beaglebone.getLed(1).getGpioPosition()));
+#else
+  std::string gpioNr = std::to_string(53);
+  
+  log_formatter(WARNING, log_buffer, DEFAULT_LOG_SIZE -1, "Not yet using BeagleboneLib");
+  printf("%s\n", log_buffer);
+#endif
+  
   fs.open(GPIO_PATH "export", std::fstream::out);
   if(!fs.is_open()){
     log_formatter(ERROR, log_buffer, DEFAULT_LOG_SIZE -1, "Could not write to GPIO \"export\"\n");
@@ -29,7 +50,6 @@ void heartbeat()
     return;
   }
 
-  std::string gpioNr = std::to_string(beaglebone.convertGpioPositionToAbsolute(beaglebone.getLed(1).getGpioPosition()));
   fs << gpioNr;
   fs.close();
 
